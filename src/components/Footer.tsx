@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Mail, Database } from 'lucide-react';
+import { ArrowUp, Mail } from 'lucide-react';
+import Image from 'next/image';
 import { PORTFOLIO_DATA } from '@/data/portfolioData';
+import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -14,12 +16,16 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           
-          {/* Logo & Info */}
+          {/* Logo Photo & Info */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#4F8CFF] to-[#8B5CF6] p-[1px]">
-              <div className="w-full h-full bg-[#0B0F19] rounded-[7px] flex items-center justify-center">
-                <Database className="w-4 h-4 text-[#4F8CFF]" />
-              </div>
+            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#4F8CFF]/60">
+              <Image
+                src={PORTFOLIO_DATA.personal.photoUrl}
+                alt="Krishna Mehta"
+                fill
+                sizes="32px"
+                className="object-cover object-top"
+              />
             </div>
             <div>
               <span className="text-sm font-bold text-white">Krishna Mehta</span>
@@ -43,20 +49,20 @@ export default function Footer() {
               href={PORTFOLIO_DATA.personal.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-slate-900 border border-white/10 text-slate-400 hover:text-white hover:border-[#00E5A8]/50 transition-all"
+              className="p-2.5 rounded-lg bg-slate-900 border border-white/10 text-slate-400 hover:text-white hover:border-[#00E5A8]/50 transition-all flex items-center justify-center"
               title="LinkedIn Profile"
             >
-              <Linkedin className="w-4 h-4" />
+              <LinkedinIcon className="w-4 h-4" />
             </a>
 
             <a
               href={PORTFOLIO_DATA.personal.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-slate-900 border border-white/10 text-slate-400 hover:text-white hover:border-[#8B5CF6]/50 transition-all"
+              className="p-2.5 rounded-lg bg-slate-900 border border-white/10 text-slate-400 hover:text-white hover:border-[#8B5CF6]/50 transition-all flex items-center justify-center"
               title="GitHub Repositories"
             >
-              <Github className="w-4 h-4" />
+              <GithubIcon className="w-4 h-4" />
             </a>
           </div>
 

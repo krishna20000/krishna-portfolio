@@ -14,22 +14,28 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://krishna-mehta.dev'),
   title: 'Krishna Mehta | Data Analyst & Business Intelligence Specialist',
   description:
-    'Portfolio of Krishna Mehta, Data Analyst & BI Specialist proficient in Excel, SQL, Python, and Power BI. Transforming business data into actionable dashboards.',
+    'Portfolio of Krishna Mehta, Aspiring Data Analyst & BI Specialist proficient in Excel, SQL, Python, and Power BI with a background in Manual Quality Assurance.',
   keywords: [
     'Krishna Mehta',
     'Data Analyst',
     'Business Intelligence',
-    'Power BI Specialist',
+    'Power BI',
     'SQL Analytics',
     'Python Analyst',
-    'Excel Expert',
+    'Excel',
     'Manual QA',
     'KPI Dashboards'
   ],
   authors: [{ name: 'Krishna Mehta' }],
   creator: 'Krishna Mehta',
+  icons: {
+    icon: '/krishna-mehta.jpg',
+    shortcut: '/krishna-mehta.jpg',
+    apple: '/krishna-mehta.jpg',
+  },
   openGraph: {
     title: 'Krishna Mehta | Data Analyst Portfolio',
     description:
@@ -38,12 +44,21 @@ export const metadata: Metadata = {
     siteName: 'Krishna Mehta Portfolio',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/krishna-mehta.jpg',
+        width: 800,
+        height: 800,
+        alt: 'Krishna Mehta Photo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Krishna Mehta | Data Analyst & BI Specialist',
     description:
       'Transforming Data Into Business Decisions using Excel, SQL, Python, and Power BI.',
+    images: ['/krishna-mehta.jpg'],
   },
   robots: {
     index: true,
@@ -61,6 +76,8 @@ export default function RootLayout({
     '@type': 'Person',
     name: 'Krishna Mehta',
     jobTitle: 'Data Analyst & Business Intelligence Specialist',
+    image: 'https://krishna-mehta.dev/krishna-mehta.jpg',
+    email: 'mehtakrishna1710@gmail.com',
     knowsAbout: [
       'Data Analytics',
       'Power BI',
@@ -72,17 +89,18 @@ export default function RootLayout({
     ],
     worksFor: {
       '@type': 'Organization',
-      name: 'Whatbytes Technologies'
+      name: 'WhatBytes'
     },
     sameAs: [
       'https://linkedin.com/in/krishna-mehta-analytics',
-      'https://github.com/krishna-mehta'
+      'https://github.com/krishna20000'
     ]
   };
 
   return (
     <html lang="en" className="dark scroll-smooth">
       <head>
+        <link rel="icon" href="/krishna-mehta.jpg" type="image/jpeg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

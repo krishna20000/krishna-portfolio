@@ -5,44 +5,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Wrench,
   Database,
-  Code,
-  FileSpreadsheet,
   BarChart3,
-  LayoutDashboard,
-  PieChart,
-  Activity,
-  GitBranch,
-  Terminal,
-  Share2,
+  FileSpreadsheet,
   CheckSquare,
-  FileCheck,
-  Bug,
-  ShieldCheck,
-  ChevronRight
+  Terminal,
+  CheckCircle2
 } from 'lucide-react';
 import { PORTFOLIO_DATA } from '@/data/portfolioData';
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Database,
-  Code,
-  FileSpreadsheet,
   BarChart3,
-  LayoutDashboard,
-  PieChart,
-  Activity,
-  GitBranch,
-  Terminal,
-  Share2,
+  FileSpreadsheet,
   CheckSquare,
-  FileCheck,
-  Bug,
-  ShieldCheck
+  Terminal
 };
 
 export default function SkillsSection() {
   const [activeTab, setActiveTab] = useState(0);
 
-  const categories = PORTFOLIO_DATA.skillCategories;
+  const categories = PORTFOLIO_DATA.skillsCategorized;
   const currentCategory = categories[activeTab];
 
   return (
@@ -53,13 +35,13 @@ export default function SkillsSection() {
         <div className="flex flex-col items-center text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 text-[#8B5CF6] text-xs font-mono mb-3">
             <Wrench className="w-3.5 h-3.5" />
-            <span>TECHNICAL CAPABILITIES</span>
+            <span>TECHNICAL SKILLS</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            Skills & <span className="gradient-text-primary">Tool Matrix</span>
+            Technical <span className="gradient-text-primary">Capabilities</span>
           </h2>
           <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-2xl">
-            A comprehensive overview of data querying, visualization, software tooling, and testing proficiencies.
+            Analytics tools, data visualization, spreadsheet modeling, software QA testing, and development environments.
           </p>
         </div>
 
@@ -71,7 +53,7 @@ export default function SkillsSection() {
               <button
                 key={cat.title}
                 onClick={() => setActiveTab(index)}
-                className={`relative px-5 py-2.5 text-xs sm:text-sm font-medium rounded-xl transition-all duration-200 cursor-pointer ${
+                className={`relative px-4 py-2.5 text-xs sm:text-sm font-medium rounded-xl transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'text-white shadow-lg'
                     : 'text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-white/5 hover:border-white/10'
@@ -90,7 +72,7 @@ export default function SkillsSection() {
           })}
         </div>
 
-        {/* Skills Cards Grid */}
+        {/* Skills Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -98,56 +80,27 @@ export default function SkillsSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {currentCategory.skills.map((skill, idx) => {
-              const IconComponent = ICON_MAP[skill.iconName] || Database;
+            {currentCategory.skills.map((skill) => {
+              const IconComponent = ICON_MAP[currentCategory.iconName] || Database;
               return (
                 <div
                   key={skill.name}
-                  className="glass-card-hover rounded-2xl p-6 border border-white/5 flex flex-col justify-between group"
+                  className="glass-card-hover rounded-xl p-4 border border-white/10 flex items-center justify-between group"
                 >
-                  <div>
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-800 border border-white/10 flex items-center justify-center group-hover:border-[#4F8CFF]/50 transition-colors">
-                          <IconComponent className="w-5 h-5 text-[#4F8CFF] group-hover:text-[#00E5A8] transition-colors" />
-                        </div>
-                        <div>
-                          <h3 className="text-base font-bold text-white group-hover:text-[#00E5A8] transition-colors">
-                            {skill.name}
-                          </h3>
-                          <span className="text-[11px] font-mono text-slate-400">
-                            {skill.experience} Level
-                          </span>
-                        </div>
-                      </div>
-                      <span className="text-xs font-mono font-bold text-[#4F8CFF]">
-                        {skill.level}%
-                      </span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-slate-800 border border-white/10 flex items-center justify-center text-[#4F8CFF] group-hover:text-[#00E5A8] transition-colors">
+                      <IconComponent className="w-4 h-4" />
                     </div>
-
-                    {/* Progress Bar */}
-                    <div className="w-full bg-slate-800/80 rounded-full h-2 mb-5 overflow-hidden p-[1px]">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: idx * 0.1 }}
-                        className="h-full bg-gradient-to-r from-[#4F8CFF] via-[#8B5CF6] to-[#00E5A8] rounded-full"
-                      />
-                    </div>
-
-                    {/* Highlights List */}
-                    <div className="grid grid-cols-2 gap-2 mt-3">
-                      {skill.highlights.map((h, hIdx) => (
-                        <div key={hIdx} className="flex items-center gap-1.5 text-xs text-slate-300">
-                          <ChevronRight className="w-3 h-3 text-[#00E5A8] shrink-0" />
-                          <span className="truncate">{h}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <span className="text-sm font-semibold text-white group-hover:text-[#00E5A8] transition-colors">
+                      {skill.name}
+                    </span>
                   </div>
+
+                  <span className="text-[10px] font-mono font-medium text-slate-300 bg-slate-800/80 px-2.5 py-1 rounded-md border border-white/5">
+                    {skill.badge}
+                  </span>
                 </div>
               );
             })}

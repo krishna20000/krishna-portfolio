@@ -4,51 +4,34 @@ export interface Project {
   category: string;
   shortDescription: string;
   fullDescription: string;
-  businessProblem: string;
-  solution: string;
-  keyInsights: string[];
+  highlights: string[];
   technologies: string[];
-  metrics: { label: string; value: string }[];
-  githubUrl: string;
+  driveUrl?: string;
+  githubUrl?: string;
   demoUrl: string;
   badge: string;
+  isUpcoming?: boolean;
+  imageUrl?: string;
   chartType: 'bar' | 'line' | 'pie' | 'donut' | 'waterfall';
 }
 
-export interface SkillCategory {
-  title: string;
-  description: string;
-  skills: {
-    name: string;
-    level: number; // percentage
-    experience: string;
-    iconName: string;
-    highlights: string[];
-  }[];
+export interface EducationItem {
+  degree: string;
+  institution: string;
+  timeline: string;
+  status: string;
+  badge: string;
 }
 
 export interface ExperienceItem {
   id: string;
-  role: string;
   company: string;
+  role: string;
   period: string;
-  location: string;
-  type: string;
-  summary: string;
-  responsibilities: string[];
-  keyAchievements: string[];
-  skillsUsed: string[];
-}
-
-export interface Certification {
-  id: string;
-  title: string;
-  issuer: string;
-  issueDate: string;
-  credentialId: string;
-  skills: string[];
-  badgeColor: string;
-  verifyUrl: string;
+  duration?: string;
+  location?: string;
+  bullets: string[];
+  skillsGained?: string[];
 }
 
 export const PORTFOLIO_DATA = {
@@ -57,283 +40,286 @@ export const PORTFOLIO_DATA = {
     title: "Data Analyst | Business Intelligence | Power BI | Excel | SQL | Python",
     headline: "Transforming Data Into Business Decisions.",
     subtitle:
-      "I build insightful dashboards, analyze business data, and create data-driven solutions using Excel, SQL, Python, and Power BI.",
-    email: "krishnamehta.analytics@gmail.com",
-    location: "Mumbai, India (Open to Remote & Global Relocation)",
+      "Aspiring Data Analyst with a background in Manual Quality Assurance and a strong interest in transforming raw data into meaningful business insights.",
+    email: "mehtakrishna1710@gmail.com",
+    location: "India (Open to Remote & On-Site Roles in India)",
     linkedin: "https://linkedin.com/in/krishna-mehta-analytics",
-    github: "https://github.com/krishna-mehta",
-    availability: "Available for Full-time Roles & Analytics Consulting",
-    bio: [
-      "I am an analytical professional with a strong foundation in Quality Assurance and a deep passion for Data Analytics & Business Intelligence.",
-      "My background in Manual QA gave me meticulous attention to data integrity, system edge cases, and user requirements. Today, I combine that rigor with modern analytical tools (SQL, Python, Power BI, Advanced Excel) to transform raw data streams into actionable executive decision frameworks.",
-      "Whether optimizing sales funnels, uncovering operational bottlenecks, or building interactive executive dashboards, my goal is simple: deliver clear, reliable, and high-impact data stories."
-    ]
+    github: "https://github.com/krishna20000",
+    availability: "Actively Seeking Entry-Level Data Analytics Opportunities in India / Remote",
+    photoUrl: "/krishna-mehta.jpg",
+
+    aboutParagraphs: [
+      "I'm an aspiring Data Analyst with a background in Manual Quality Assurance and a strong interest in transforming raw data into meaningful business insights. I enjoy solving problems through data analysis, building interactive dashboards, and helping organizations make informed, data-driven decisions.",
+      "My journey into analytics began with testing software, where I developed a strong eye for detail, accuracy, and process improvement. While working as a Manual QA Tester, I realized I was most interested in understanding patterns, measuring performance, and using data to improve products and workflows. This led me to transition into Data Analytics.",
+      "I continuously improve my analytical skills by building projects, learning modern analytics tools, and applying best practices in business intelligence and visualization."
+    ],
+
+    careerObjective:
+      "My goal is to build a successful career in Data Analytics by solving real business problems through data. I am actively seeking opportunities where I can apply analytical thinking, continue learning modern BI technologies, and contribute to business growth with meaningful insights."
   },
 
-  stats: [
-    { label: "Interactive Dashboards Built", value: 8, suffix: "+" },
-    { label: "Data Records Analyzed", value: 250, suffix: "K+" },
-    { label: "QA & Data Accuracy Precision", value: 99, suffix: ".8%" },
-    { label: "Automated Data Pipelines", value: 12, suffix: "+" },
+  education: [
+    {
+      degree: "Master of Computer Applications (MCA)",
+      institution: "Jain University (Online)",
+      timeline: "2025 — 2027",
+      status: "Currently Pursuing",
+      badge: "Post-Graduate"
+    },
+    {
+      degree: "Bachelor of Computer Applications (BCA)",
+      institution: "Parul University",
+      timeline: "2022 — 2025",
+      status: "Graduated",
+      badge: "Graduate"
+    }
+  ] as EducationItem[],
+
+  coreStrengths: [
+    "Analytical Thinking",
+    "Detail-Oriented",
+    "Problem Solving",
+    "Fast Learner",
+    "Process Improvement",
+    "Data Visualization",
+    "Communication",
+    "Team Collaboration",
+    "Continuous Learning",
+    "Adaptability"
   ],
 
-  aboutTimeline: [
-    {
-      year: "Phase 1: Foundation",
-      title: "Manual QA Tester @ Whatbytes Technologies",
-      description: "Honed precision in data validation, edge-case testing, bug tracking, and user acceptance testing (UAT). Developed an eye for data consistency and defect patterns."
-    },
-    {
-      year: "Phase 2: Transition",
-      title: "Pivoted to Business Data Analytics",
-      description: "Expanded core toolkit to SQL, Python (Pandas/NumPy), Power BI, and DAX. Applied software quality methodologies to raw datasets, ensuring clean ETL pipelines."
-    },
-    {
-      year: "Phase 3: Impact",
-      title: "Building Business Intelligence Solutions",
-      description: "Delivering dynamic KPI dashboards, automated reporting, customer retention analysis, and financial performance visualization for decision makers."
-    }
+  currentlyLearning: [
+    "Advanced Excel",
+    "Power BI",
+    "SQL",
+    "Python for Data Analytics",
+    "Business Intelligence",
+    "Dashboard Design",
+    "Data Visualization Best Practices"
   ],
 
-  skillCategories: [
+  interests: [
+    "Data Analytics",
+    "Business Intelligence",
+    "Dashboard Development",
+    "Process Optimization",
+    "Technology",
+    "Continuous Learning"
+  ],
+
+  skillsCategorized: [
     {
-      title: "Analytics Core",
-      description: "Core technical tools for data querying, manipulation, and statistical processing.",
+      title: "Data Analytics",
+      iconName: "Database",
       skills: [
-        { name: "SQL", level: 92, experience: "Advanced", iconName: "Database", highlights: ["Complex Joins & Subqueries", "CTE & Window Functions", "Data Aggregation & Grouping", "Database Schema Analysis"] },
-        { name: "Python", level: 88, experience: "Proficient", iconName: "Code", highlights: ["Pandas & NumPy Data Cleaning", "Matplotlib & Seaborn Analytics", "Automated Scripting", "EDA & Statistical Modeling"] },
-        { name: "Advanced Excel", level: 95, experience: "Expert", iconName: "FileSpreadsheet", highlights: ["XLOOKUP / INDEX-MATCH", "Pivot Tables & Slicers", "Power Query ETL", "Dynamic Financial Models"] },
-        { name: "Power BI", level: 90, experience: "Advanced", iconName: "BarChart3", highlights: ["DAX Measure Calculations", "Data Modeling (Star Schema)", "Interactive KPI Reports", "Scheduled Refresh Setup"] }
+        { name: "Microsoft Excel", badge: "Core" },
+        { name: "Power BI", badge: "Core" },
+        { name: "SQL", badge: "Core" },
+        { name: "Python", badge: "Learning" }
       ]
     },
     {
-      title: "Visualization & BI",
-      description: "Designing sleek, executive-ready dashboard experiences and stories.",
+      title: "Data Visualization",
+      iconName: "BarChart3",
       skills: [
-        { name: "Power BI Dashboards", level: 92, experience: "Advanced", iconName: "LayoutDashboard", highlights: ["Custom Themes & Layouts", "Drill-through & Tooltips", "Role-Based Security", "Mobile Layout Optimization"] },
-        { name: "Interactive Charts", level: 90, experience: "Advanced", iconName: "PieChart", highlights: ["Waterfall & Combo Visuals", "Trend Lines & Forecasting", "Cohort Matrix Tables", "Conditional Formatting"] },
-        { name: "KPI Frameworks", level: 94, experience: "Expert", iconName: "Activity", highlights: ["Executive Metric Trees", "MoM / YoY Growth Tracking", "Variance Analysis", "Target vs Actual Tracking"] }
+        { name: "Interactive Dashboards", badge: "Advanced" },
+        { name: "KPI Reporting", badge: "Advanced" },
+        { name: "Business Intelligence", badge: "Core" },
+        { name: "Data Storytelling", badge: "Core" },
+        { name: "Charts & Visual Analytics", badge: "Advanced" }
       ]
     },
     {
-      title: "Developer Tools",
-      description: "Modern version control and development environments for robust workflows.",
+      title: "Spreadsheet & Analytics",
+      iconName: "FileSpreadsheet",
       skills: [
-        { name: "Git & GitHub", level: 85, experience: "Proficient", iconName: "GitBranch", highlights: ["Version Control", "Repository Documentation", "Branching & Releases", "GitHub Projects"] },
-        { name: "VS Code", level: 90, experience: "Advanced", iconName: "Terminal", highlights: ["Python Data Workspaces", "Jupyter Notebook Integration", "SQL Query Extensions", "Custom Snippets"] },
-        { name: "Google Workspace", level: 95, experience: "Expert", iconName: "Share2", highlights: ["Google Sheets Apps Script", "Collaborative Analytics", "Looker Studio Drafts", "Data Export Workflows"] }
+        { name: "Pivot Tables & Pivot Charts", badge: "Proficient" },
+        { name: "XLOOKUP & VLOOKUP", badge: "Proficient" },
+        { name: "INDEX & MATCH", badge: "Proficient" },
+        { name: "Conditional Formatting", badge: "Proficient" },
+        { name: "Data Validation & Cleaning", badge: "Proficient" },
+        { name: "Basic Power Query", badge: "Proficient" }
       ]
     },
     {
-      title: "Quality & Testing",
-      description: "Rigor carried over from Manual QA experience to guarantee high data reliability.",
+      title: "Testing & Quality Assurance",
+      iconName: "CheckSquare",
       skills: [
-        { name: "Manual Testing", level: 92, experience: "Advanced", iconName: "CheckSquare", highlights: ["Functional Testing", "Boundary Value Analysis", "Exploratory Testing", "Data Pipeline Validation"] },
-        { name: "Test Cases & Scenarios", level: 90, experience: "Advanced", iconName: "FileCheck", highlights: ["Test Matrix Authoring", "Edge-Case Coverage", "Requirement Traceability", "Acceptance Criteria Validation"] },
-        { name: "Bug Reporting & QA", level: 95, experience: "Expert", iconName: "Bug", highlights: ["Detailed Defect Reproduction", "Severity & Priority Mapping", "Jira & Trello Management", "Regression Testing"] },
-        { name: "UAT & Data Quality", level: 88, experience: "Proficient", iconName: "ShieldCheck", highlights: ["User Acceptance Testing", "Source vs Target Verification", "Null Value Audits", "Data Integrity Checks"] }
+        { name: "Manual Testing", badge: "QA Experience" },
+        { name: "Functional Testing", badge: "QA Experience" },
+        { name: "Regression Testing", badge: "QA Experience" },
+        { name: "User Acceptance Testing (UAT)", badge: "QA Experience" },
+        { name: "Bug Reporting", badge: "QA Experience" },
+        { name: "Test Case Design", badge: "QA Experience" }
+      ]
+    },
+    {
+      title: "Development Tools",
+      iconName: "Terminal",
+      skills: [
+        { name: "Git & GitHub", badge: "Tools" },
+        { name: "Visual Studio Code", badge: "Tools" },
+        { name: "Google Workspace", badge: "Tools" }
       ]
     }
-  ] as SkillCategory[],
+  ],
 
   projects: [
     {
-      id: "sales-dashboard",
-      title: "Sales Performance & Revenue Analytics Dashboard",
-      category: "Sales Analytics",
-      shortDescription: "Interactive Power BI executive dashboard analyzing multi-region revenue, sales rep performance, and product category profitability.",
-      fullDescription: "Built a comprehensive 360-degree sales intelligence solution that ingests transactional sales data across multiple regions. Features drill-down capabilities by sales channel, month-over-month revenue growth indicators, and automated profit margin calculations.",
-      businessProblem: "The regional sales management team lacked real-time visibility into underperforming product categories and sales rep conversion rates, leading to delayed quarterly forecasting.",
-      solution: "Engineered a normalized data model in Power BI using SQL and Power Query. Created DAX measures for dynamic MoM growth, moving averages, and target variance indicators.",
-      keyInsights: [
-        "Identified a 22% untapped profit margin boost by reallocating regional marketing to top 3 performing product tiers.",
-        "Uncovered sales cycle bottlenecks reducing overall deal velocity in Q3.",
-        "Automated monthly reporting, saving the sales operations team over 15 hours per week."
+      id: "sales-performance",
+      title: "Sales Performance Dashboard",
+      category: "Power BI Analytics",
+      shortDescription: "Designed an interactive Power BI dashboard to analyze supermarket sales performance using KPIs, charts, and business insights.",
+      fullDescription: "Built an end-to-end Supermarket Sales Dashboard in Power BI analyzing total income (₹31.43K), total quantity (11K), and average rating (6.99). Ingests transactional data across cities (Delhi, Hyderabad, Mumbai), payment channels (Cash, E-wallet, Credit card), and product lines to uncover revenue distribution and rating variances.",
+      highlights: [
+        "KPI Cards: ₹31.43K Income, 11K Total Quantity, 6.99 Avg Rating",
+        "City Gross Income Breakdown (Delhi ₹15.5K, Hyderabad ₹9.5K, Mumbai ₹6.1K)",
+        "Payment Method Distribution (Cash ₹9.5K, E-wallet ₹5.8K, Credit card ₹3.3K)",
+        "Product Line Income & Unit Price Benchmarking Matrix",
+        "Average Rating Trends across Product Categories",
+        "Interactive Visual Filters & Slicers"
       ],
-      technologies: ["Power BI", "DAX", "SQL", "Excel", "Power Query"],
-      metrics: [
-        { label: "Revenue Analyzed", value: "$4.2M" },
-        { label: "Margin Growth", value: "+18.5%" },
-        { label: "Reporting Hours Saved", value: "15 hrs/wk" }
-      ],
-      githubUrl: "https://github.com/krishna-mehta/sales-analytics-powerbi",
+      technologies: ["Power BI", "DAX", "Excel", "Data Visualization"],
+      driveUrl: "https://drive.google.com/file/d/1EqXXajoAYUZP06tHW3AM_QxMrEjxL4mn/view?usp=drive_link",
       demoUrl: "#sales-demo",
-      badge: "Power BI & DAX",
+      badge: "Featured Live Project",
+      isUpcoming: false,
+      imageUrl: "/sales-dashboard-real.png",
       chartType: "bar"
     },
     {
       id: "hr-analytics",
-      title: "HR Workforce & Employee Attrition Intelligence",
-      category: "HR Analytics",
-      shortDescription: "Predictive HR dashboard identifying employee attrition risks, department salary bands, and performance metrics.",
-      fullDescription: "Developed a human resources analytics platform to evaluate employee retention rates, salary equity across departments, and tenure correlations with voluntary resignation trends.",
-      businessProblem: "High attrition rates in tech and support departments were driving up recruitment overhead by 28% year-over-year without clear root-cause visibility.",
-      solution: "Applied Python (Pandas/Seaborn) for exploratory data analysis and built an interactive dashboard visualizing flight-risk parameters based on commute time, overtime hours, and promotion cadence.",
-      keyInsights: [
-        "Discovered that employees with >15 hours monthly overtime without promotion within 2 years showed a 3.4x higher resignation probability.",
-        "Recommended targeted retention packages that reduced voluntary attrition by 14%.",
-        "Standardized salary band benchmarks across 6 business units."
+      title: "HR Analytics Dashboard",
+      category: "Power BI (Upcoming)",
+      shortDescription: "Analyzing workforce metrics such as employee distribution, attrition, department performance, and hiring trends through Power BI.",
+      fullDescription: "Currently developing a workforce intelligence dashboard to track employee demographics, department distribution, attrition factors, and recruitment pipeline efficiency.",
+      highlights: [
+        "Workforce Headcount Distribution",
+        "Employee Attrition Analysis",
+        "Departmental Performance Benchmarks",
+        "Hiring & Recruitment Metrics"
       ],
-      technologies: ["Python", "Pandas", "Power BI", "SQL", "Matplotlib"],
-      metrics: [
-        { label: "Headcount Covered", value: "1,450+" },
-        { label: "Attrition Reduced", value: "14%" },
-        { label: "Recruitment Savings", value: "$120K" }
-      ],
-      githubUrl: "https://github.com/krishna-mehta/hr-workforce-analytics",
+      technologies: ["Power BI", "Excel", "Data Analytics"],
+      driveUrl: "https://drive.google.com/file/d/1EqXXajoAYUZP06tHW3AM_QxMrEjxL4mn/view?usp=drive_link",
       demoUrl: "#hr-demo",
-      badge: "Python & BI",
+      badge: "Upcoming Project",
+      isUpcoming: true,
       chartType: "pie"
     },
     {
-      id: "financial-dashboard",
-      title: "Corporate Financial & P&L Health Dashboard",
-      category: "Financial Analytics",
-      shortDescription: "Executive financial dashboard tracking EBITDA, OpEx distribution, cash flow variance, and revenue forecasts.",
-      fullDescription: "Constructed a high-level executive financial portal providing real-time P&L insights, OPEX vs CAPEX breakdown, and scenario forecasting models for strategic budgeting.",
-      businessProblem: "Financial reports were fragmented across disconnected Excel spreadsheets, creating audit delays and static quarterly reviews.",
-      solution: "Centralized data pipelines into a structured SQL database, automated ETL scripts in Python, and produced a dynamic financial dashboard with live dynamic scenario parameters.",
-      keyInsights: [
-        "Uncovered $85K in redundant software license expenditure across operational units.",
-        "Improved cash flow forecasting accuracy by 24% using rolling 12-month trend models.",
-        "Reduced financial statement closing cycle time from 10 days to 2 days."
+      id: "financial-analytics",
+      title: "Financial Analytics Dashboard",
+      category: "BI & Excel (Upcoming)",
+      shortDescription: "Building a financial reporting dashboard with revenue analysis, profit trends, expense monitoring, and KPI tracking.",
+      fullDescription: "Designing a comprehensive financial reporting framework capturing revenue trajectories, operating expenses, profit margins, and budget vs actual performance.",
+      highlights: [
+        "Revenue Trajectory & Profit Trends",
+        "Expense Category Breakdown",
+        "EBITDA & Financial Health KPIs",
+        "Variance & Budget Analysis"
       ],
-      technologies: ["Advanced Excel", "SQL", "Python", "Financial Modeling", "Power BI"],
-      metrics: [
-        { label: "OpEx Savings", value: "$85K" },
-        { label: "Forecast Accuracy", value: "+24%" },
-        { label: "Closing Time", value: "-8 Days" }
-      ],
-      githubUrl: "https://github.com/krishna-mehta/financial-pl-dashboard",
+      technologies: ["Excel", "Power BI", "Financial Modeling"],
+      driveUrl: "https://drive.google.com/file/d/1EqXXajoAYUZP06tHW3AM_QxMrEjxL4mn/view?usp=drive_link",
       demoUrl: "#financial-demo",
-      badge: "Excel & SQL",
+      badge: "Upcoming Project",
+      isUpcoming: true,
       chartType: "waterfall"
     },
     {
       id: "customer-insights",
-      title: "E-Commerce Customer Retention & LTV Segmentation",
-      category: "Customer Analytics",
-      shortDescription: "RFM (Recency, Frequency, Monetary) segmentation model analyzing customer lifetime value and churn risk.",
-      fullDescription: "Processed over 180,000 transaction records to group e-commerce customers into actionable RFM segments, enabling targeted email marketing campaigns and VIP loyalty rewards.",
-      businessProblem: "Generic marketing blasts resulted in low open rates (12%) and diminishing customer repeat purchases.",
-      solution: "Executed Python scripts for data cleaning, percentile scoring, and K-Means clustering. Exported segment definitions into Power BI for interactive cohort filtering.",
-      keyInsights: [
-        "Segmented 15% of users as 'At-Risk VIPs', generating $450K in historical revenue.",
-        "Personalized re-engagement campaigns lifted repeat order rate by 19%.",
-        "Increased Customer Lifetime Value (CLV) benchmark by $140 per active segment user."
+      title: "Customer Insights Dashboard",
+      category: "SQL & Analytics (Upcoming)",
+      shortDescription: "Creating customer segmentation and purchasing behavior analysis to support better business decisions.",
+      fullDescription: "Analyzing buyer purchase frequency, order volume, and customer lifetime value segments to empower strategic marketing and retention strategies.",
+      highlights: [
+        "Customer Lifetime Value (CLV)",
+        "Purchase Frequency & Volume",
+        "Customer Behavioral Segmentation",
+        "Repeat Purchase Rates"
       ],
-      technologies: ["Python", "SQL", "Power BI", "Scikit-Learn", "Cohort Analysis"],
-      metrics: [
-        { label: "Transactions Processed", value: "180K+" },
-        { label: "Repeat Order Lift", value: "+19%" },
-        { label: "CLV Boost", value: "+$140" }
-      ],
-      githubUrl: "https://github.com/krishna-mehta/rfm-customer-segmentation",
+      technologies: ["SQL", "Power BI", "Excel"],
+      driveUrl: "https://drive.google.com/file/d/1EqXXajoAYUZP06tHW3AM_QxMrEjxL4mn/view?usp=drive_link",
       demoUrl: "#customer-demo",
-      badge: "Python & ML",
+      badge: "Upcoming Project",
+      isUpcoming: true,
       chartType: "donut"
     },
     {
       id: "supply-chain",
-      title: "Supply Chain Operations & Inventory Optimization",
-      category: "Supply Chain",
-      shortDescription: "End-to-end logistics dashboard monitoring supplier lead times, stockout risks, and warehouse fulfillment efficiency.",
-      fullDescription: "Built an operational command center dashboard that monitors inventory turnover rates, safety stock thresholds, and logistics vendor SLA compliance.",
-      businessProblem: "Frequent warehouse stockouts for high-demand items cost an estimated $200K in unfulfilled sales during peak holiday seasons.",
-      solution: "Designed dynamic DAX measures calculating Reorder Point (ROP) and Economic Order Quantity (EOQ). Created real-time alert flags for items falling below safety threshold levels.",
-      keyInsights: [
-        "Prevented zero-stockout occurrences during peak promotional weeks by automating safety stock alerts.",
-        "Negotiated revised vendor SLAs after pinpointing lead time variances across 4 primary logistics partners.",
-        "Reduced excess inventory storage holding costs by 16%."
+      title: "Supply Chain Dashboard",
+      category: "Logistics Analytics (Upcoming)",
+      shortDescription: "Monitoring inventory, logistics, supplier performance, and operational KPIs through interactive reporting.",
+      fullDescription: "Creating a logistics operations dashboard monitoring stock turnover, safety inventory thresholds, vendor delivery lead times, and fulfillment efficiency.",
+      highlights: [
+        "Inventory Turnover Rates",
+        "Supplier SLA & Lead Time Variance",
+        "Stockout Risk Alerts",
+        "Operational Fulfillment Metrics"
       ],
-      technologies: ["Power BI", "SQL", "Advanced Excel", "DAX", "Power Query"],
-      metrics: [
-        { label: "Holding Cost Savings", value: "16%" },
-        { label: "Stockout Reduction", value: "99.2%" },
-        { label: "SLA Variance", value: "-3.5 Days" }
-      ],
-      githubUrl: "https://github.com/krishna-mehta/supply-chain-analytics",
+      technologies: ["Power BI", "SQL", "Excel"],
+      driveUrl: "https://drive.google.com/file/d/1EqXXajoAYUZP06tHW3AM_QxMrEjxL4mn/view?usp=drive_link",
       demoUrl: "#supply-demo",
-      badge: "Power BI & Ops",
+      badge: "Upcoming Project",
+      isUpcoming: true,
       chartType: "line"
     }
   ] as Project[],
 
-  experience: [
+  experienceList: [
     {
       id: "whatbytes-qa",
+      company: "WhatBytes",
       role: "Manual QA Tester",
-      company: "Whatbytes Technologies",
-      period: "2022 — Present",
-      location: "Mumbai, India",
-      type: "Full-Time",
-      summary: "Responsible for end-to-end web and software quality assurance, test scenario execution, defect tracking, and data validation across production releases.",
-      responsibilities: [
-        "Authored comprehensive test plans, test cases, and requirement traceability matrices for complex web applications.",
-        "Executed manual functional, regression, exploratory, and user acceptance testing (UAT) across multi-device environments.",
-        "Validated database integrity using SQL queries to verify backend data transactions, API payloads, and UI data rendering.",
-        "Collaborated directly with software engineers, product managers, and UI designers using Jira to log, triage, and retest software defects.",
-        "Maintained high precision standards, achieving a 99.8% bug-free deployment record for critical client releases."
+      period: "September 2025 — March 2026",
+      duration: "7 months",
+      location: "Remote",
+      bullets: [
+        "Analyzed application behavior to identify functional defects and improve software quality.",
+        "Worked extensively with structured datasets, test reports, and defect tracking to identify recurring issues.",
+        "Collaborated with developers to investigate root causes using analytical thinking and detailed reporting.",
+        "Created structured documentation and reports that improved issue tracking and team communication."
       ],
-      keyAchievements: [
-        "Spearheaded database verification protocols that caught 40+ high-severity data sync issues before production deployment.",
-        "Created standardized test documentation templates now used company-wide.",
-        "Recognized for top defect detection accuracy and cross-functional team communication."
+      skillsGained: ["Analytical Thinking", "Data Investigation", "Root Cause Analysis", "Defect Documentation"]
+    },
+    {
+      id: "whatbytes-fe",
+      company: "WhatBytes",
+      role: "Frontend Developer",
+      period: "September 2025 — November 2025",
+      duration: "3 months",
+      location: "Remote",
+      bullets: [
+        "Built and maintained responsive UI components across a live product, contributing to a consistent user experience across screen sizes and browsers.",
+        "Applied QA thinking to frontend code by writing self-tested components and validating output against design specs before handing off to the QA pipeline.",
+        "Collaborated in an Agile team environment, participating in sprint planning and daily stand-ups to align on delivery timelines and quality checkpoints."
       ],
-      skillsUsed: ["Manual Testing", "Test Cases", "SQL Validation", "Bug Reporting", "Jira", "UAT", "Data Verification"]
+      skillsGained: ["UI Components", "Self-Testing Code", "Agile & Sprint Workflows", "Design Specification Audit"]
+    },
+    {
+      id: "devfrend",
+      company: "Devfrend Web Solutions",
+      role: "Junior Frontend Developer",
+      period: "May 2025 — June 2025",
+      duration: "2 months",
+      location: "India",
+      bullets: [
+        "Developed client-facing web pages from wireframes, translating design requirements into functional, cross-browser-compatible HTML/CSS/JS code.",
+        "Identified and resolved UI inconsistencies during development, reducing QA rework in the handoff phase and improving first-submission quality."
+      ],
+      skillsGained: ["Wireframe Translation", "Cross-Browser Compatibility", "UI Defect Reduction", "Clean Code Standards"]
+    },
+    {
+      id: "acciojob",
+      company: "AccioJob",
+      role: "Software Developer Trainee",
+      period: "October 2024 — May 2025",
+      duration: "8 months",
+      location: "India",
+      bullets: [
+        "Completed an intensive 8-month full-stack training program, building projects in JavaScript and core web technologies while developing a structured approach to problem-solving.",
+        "Gained hands-on exposure to SDLC, Agile workflows, and collaborative development practices that now underpin my QA and testing mindset."
+      ],
+      skillsGained: ["Structured Problem-Solving", "SDLC Fundamentals", "JavaScript & Web Tech", "Testing Mindset"]
     }
-  ] as ExperienceItem[],
-
-  certifications: [
-    {
-      id: "google-da",
-      title: "Google Data Analytics Professional Certificate",
-      issuer: "Coursera / Google",
-      issueDate: "2023",
-      credentialId: "GDA-KM-98231",
-      skills: ["Data Analysis", "R / Python", "SQL", "Tableau", "Data Cleaning", "Spreadsheets"],
-      badgeColor: "#4285F4",
-      verifyUrl: "https://coursera.org/verify/professional-cert/google-data-analytics"
-    },
-    {
-      id: "power-bi-cert",
-      title: "Microsoft Certified: Power BI Data Analyst Associate (PL-300)",
-      issuer: "Microsoft",
-      issueDate: "2023",
-      credentialId: "MSFT-PL300-88120",
-      skills: ["Power BI", "DAX", "Data Modeling", "Power Query", "Dashboard Design", "Row-Level Security"],
-      badgeColor: "#F2C811",
-      verifyUrl: "https://learn.microsoft.com/credentials/certifications/power-bi-data-analyst-associate/"
-    },
-    {
-      id: "excel-expert",
-      title: "Microsoft Office Specialist: Excel Expert (Advanced Excel)",
-      issuer: "Microsoft",
-      issueDate: "2022",
-      credentialId: "MOS-EXCEL-33019",
-      skills: ["Pivot Tables", "XLOOKUP", "Power Pivot", "Financial Modeling", "Macros / VBA", "Data Audit"],
-      badgeColor: "#107C41",
-      verifyUrl: "https://certiport.pearsonvue.com/Certifications/Microsoft/MOS"
-    },
-    {
-      id: "sql-cert",
-      title: "SQL for Data Science & Advanced Database Analytics",
-      issuer: "DataCamp / Udemy",
-      issueDate: "2023",
-      credentialId: "SQL-ADV-55412",
-      skills: ["Complex Queries", "CTE", "Window Functions", "Index Optimization", "PostgreSQL", "MySQL"],
-      badgeColor: "#00E5A8",
-      verifyUrl: "https://datacamp.com/certificate/sql-advanced"
-    },
-    {
-      id: "python-da",
-      title: "Python for Data Science & Data Analysis Masterclass",
-      issuer: "DataCamp",
-      issueDate: "2023",
-      credentialId: "PY-DA-77123",
-      skills: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Jupyter", "Exploratory Data Analysis"],
-      badgeColor: "#3776AB",
-      verifyUrl: "https://datacamp.com/certificate/python-data-analysis"
-    }
-  ] as Certification[]
+  ] as ExperienceItem[]
 };

@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Github, CheckCircle2, TrendingUp, AlertCircle, Cpu, Layers } from 'lucide-react';
-import { Project } from '@/data/portfolioData';
+import { X, CheckCircle2, TrendingUp, Clock, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
+import { PORTFOLIO_DATA, Project } from '@/data/portfolioData';
+import { GoogleDriveIcon, GithubIcon } from './SocialIcons';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -36,16 +38,24 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           {/* Header */}
           <div className="p-6 border-b border-white/10 flex items-start justify-between bg-slate-900/60">
             <div>
-              <span className="text-xs font-mono text-[#00E5A8] bg-[#00E5A8]/10 px-2.5 py-1 rounded-md">
-                {project.category}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-[#00E5A8] bg-[#00E5A8]/10 px-2.5 py-1 rounded-md">
+                  {project.category}
+                </span>
+                {project.isUpcoming && (
+                  <span className="text-xs font-mono text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-md flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    <span>Upcoming Project</span>
+                  </span>
+                )}
+              </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white mt-2">
                 {project.title}
               </h3>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -54,6 +64,19 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           {/* Body content scrollable */}
           <div className="p-6 overflow-y-auto space-y-6 text-slate-300 text-sm leading-relaxed">
             
+            {/* Real Image Render if available */}
+            {project.imageUrl && (
+              <div className="relative w-full h-64 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                <Image
+                  src={project.imageUrl}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 700px"
+                  className="object-cover object-top"
+                />
+              </div>
+            )}
+
             {/* Tech Badges */}
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech) => (
@@ -65,50 +88,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Description */}
             <div>
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Overview</h4>
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Overview & Scope</h4>
               <p>{project.fullDescription}</p>
             </div>
 
-            {/* Metrics */}
-            <div className="grid grid-cols-3 gap-3 p-4 rounded-xl bg-slate-900/60 border border-white/5">
-              {project.metrics.map((m, idx) => (
-                <div key={idx} className="text-center">
-                  <div className="text-lg font-bold font-mono text-[#4F8CFF]">{m.value}</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">{m.label}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Business Problem & Solution */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-red-950/20 border border-red-500/20">
-                <div className="flex items-center gap-2 text-xs font-bold text-red-400 uppercase mb-2">
-                  <AlertCircle className="w-4 h-4" />
-                  <span>Business Problem</span>
-                </div>
-                <p className="text-xs text-slate-300">{project.businessProblem}</p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20">
-                <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase mb-2">
-                  <Cpu className="w-4 h-4" />
-                  <span>Analytical Solution</span>
-                </div>
-                <p className="text-xs text-slate-300">{project.solution}</p>
-              </div>
-            </div>
-
-            {/* Key Insights */}
+            {/* Key Highlights */}
             <div>
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-[#00E5A8]" />
-                <span>Key Business Insights Delivered</span>
+                <span>Dashboard Metrics & Key Highlights</span>
               </h4>
-              <div className="space-y-2">
-                {project.keyInsights.map((insight, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {project.highlights.map((h, idx) => (
+                  <div key={idx} className="p-3 rounded-lg bg-slate-900/60 border border-white/5 flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#00E5A8] shrink-0 mt-0.5" />
-                    <span>{insight}</span>
+                    <span className="text-xs text-slate-200">{h}</span>
                   </div>
                 ))}
               </div>
@@ -118,15 +112,32 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           {/* Footer Actions */}
           <div className="p-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 bg-slate-900/60">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-white/10 rounded-lg transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              <span>View Source Code</span>
-            </a>
+            <div className="flex items-center gap-3 flex-wrap">
+              {project.driveUrl && (
+                <a
+                  href={project.driveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-[#00E5A8] bg-emerald-950/80 hover:bg-emerald-900/90 border border-emerald-500/30 rounded-lg transition-colors"
+                >
+                  <GoogleDriveIcon className="w-4 h-4" />
+                  <span>Open Drive View</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+
+              {project.isUpcoming && (
+                <a
+                  href={PORTFOLIO_DATA.personal.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-white/10 rounded-lg transition-colors"
+                >
+                  <GithubIcon className="w-4 h-4" />
+                  <span>GitHub Repository</span>
+                </a>
+              )}
+            </div>
 
             <button
               onClick={onClose}

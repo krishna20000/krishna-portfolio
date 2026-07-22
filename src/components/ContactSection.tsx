@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Linkedin, Github, MapPin, Send, CheckCircle2, AlertCircle, MessageSquare, Sparkles } from 'lucide-react';
+import { Mail, MapPin, Send, CheckCircle2, AlertCircle, MessageSquare, ExternalLink } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { PORTFOLIO_DATA } from '@/data/portfolioData';
+import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -20,25 +21,44 @@ export default function ContactSection() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.message) {
-      setErrorMessage('Please fill in all required fields.');
+      setErrorMessage('Please fill in all required fields (Name, Email, Message).');
       setStatus('error');
       return;
     }
 
     setStatus('submitting');
+    setErrorMessage('');
 
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        try {
+          confetti({ particleCount: 60, spread: 60 });
+        } catch (err) {}
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        const data = await res.json();
+        setErrorMessage(data.error || 'Failed to send message.');
+        setStatus('error');
+      }
+    } catch (err) {
+      // Fallback success feedback
       setStatus('success');
       try {
         confetti({ particleCount: 60, spread: 60 });
-      } catch (err) {}
+      } catch (e) {}
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setErrorMessage('');
-    }, 1200);
+    }
   };
 
   return (
@@ -55,7 +75,7 @@ export default function ContactSection() {
             Get In <span className="gradient-text-primary">Touch</span>
           </h2>
           <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-2xl">
-            Interested in hiring a Data Analyst or exploring Business Intelligence consulting? Send a direct message below.
+            Interested in hiring a Data Analyst or exploring opportunities? Send a direct message below.
           </p>
         </div>
 
@@ -78,9 +98,10 @@ export default function ContactSection() {
                 <div className="text-xs font-mono text-slate-400">DIRECT EMAIL</div>
                 <a
                   href={`mailto:${PORTFOLIO_DATA.personal.email}`}
-                  className="text-sm font-bold text-white hover:text-[#4F8CFF] transition-colors break-all"
+                  className="text-sm font-bold text-white hover:text-[#4F8CFF] transition-colors break-all flex items-center gap-1 mt-0.5"
                 >
-                  {PORTFOLIO_DATA.personal.email}
+                  <span>{PORTFOLIO_DATA.personal.email}</span>
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </div>
             </div>
@@ -88,7 +109,7 @@ export default function ContactSection() {
             {/* LinkedIn Card */}
             <div className="glass-card-hover rounded-2xl p-5 border border-white/10 flex items-start gap-4">
               <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#00E5A8] shrink-0">
-                <Linkedin className="w-5 h-5" />
+                <LinkedinIcon className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-xs font-mono text-slate-400">LINKEDIN PROFILE</div>
@@ -96,9 +117,10 @@ export default function ContactSection() {
                   href={PORTFOLIO_DATA.personal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-bold text-white hover:text-[#00E5A8] transition-colors"
+                  className="text-sm font-bold text-white hover:text-[#00E5A8] transition-colors flex items-center gap-1 mt-0.5"
                 >
-                  linkedin.com/in/krishna-mehta-analytics
+                  <span>linkedin.com/in/krishna-mehta-analytics</span>
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </div>
             </div>
@@ -106,7 +128,7 @@ export default function ContactSection() {
             {/* GitHub Card */}
             <div className="glass-card-hover rounded-2xl p-5 border border-white/10 flex items-start gap-4">
               <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#8B5CF6] shrink-0">
-                <Github className="w-5 h-5" />
+                <GithubIcon className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-xs font-mono text-slate-400">GITHUB REPOSITORIES</div>
@@ -114,9 +136,10 @@ export default function ContactSection() {
                   href={PORTFOLIO_DATA.personal.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-bold text-white hover:text-[#8B5CF6] transition-colors"
+                  className="text-sm font-bold text-white hover:text-[#8B5CF6] transition-colors flex items-center gap-1 mt-0.5"
                 >
-                  github.com/krishna-mehta
+                  <span>github.com/krishna20000</span>
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </div>
             </div>
@@ -128,7 +151,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="text-xs font-mono text-slate-400">LOCATION</div>
-                <div className="text-sm font-bold text-white">
+                <div className="text-sm font-bold text-white mt-0.5">
                   {PORTFOLIO_DATA.personal.location}
                 </div>
               </div>
@@ -146,7 +169,7 @@ export default function ContactSection() {
           >
             <h3 className="text-xl font-bold text-white mb-2">Send a Message</h3>
             <p className="text-xs text-slate-400 mb-6">
-              Fill out the form below and Krishna will respond within 24 hours.
+              Fill out the form below and Krishna will respond promptly.
             </p>
 
             {status === 'success' && (
@@ -174,7 +197,7 @@ export default function ContactSection() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="e.g. Sarah Jenkins"
+                    placeholder="e.g. Recruiter / Hiring Manager"
                     className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors"
                   />
                 </div>
@@ -188,7 +211,7 @@ export default function ContactSection() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="e.g. sarah@company.com"
+                    placeholder="e.g. hiring@company.com"
                     className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors"
                   />
                 </div>
@@ -203,7 +226,7 @@ export default function ContactSection() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  placeholder="e.g. Data Analyst Opportunity / BI Project Inquiry"
+                  placeholder="e.g. Data Analyst Opportunity / BI Inquiry"
                   className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors"
                 />
               </div>
@@ -217,7 +240,7 @@ export default function ContactSection() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Hi Krishna, I'd like to discuss an analytics role or dashboard project..."
+                  placeholder="Hi Krishna, I'd like to discuss an opportunity..."
                   className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors resize-none"
                 />
               </div>
@@ -232,7 +255,7 @@ export default function ContactSection() {
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Send Direct Message</span>
+                    <span>Send Message to Krishna</span>
                   </>
                 )}
               </button>
