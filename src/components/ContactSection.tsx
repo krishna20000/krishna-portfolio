@@ -1,71 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Send, CheckCircle2, AlertCircle, MessageSquare, ExternalLink } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { Mail, MapPin, MessageSquare, ExternalLink, ArrowUpRight, Send, Sparkles } from 'lucide-react';
 import { PORTFOLIO_DATA } from '@/data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.email || !formData.message) {
-      setErrorMessage('Please fill in all required fields (Name, Email, Message).');
-      setStatus('error');
-      return;
-    }
-
-    setStatus('submitting');
-    setErrorMessage('');
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        setStatus('success');
-        try {
-          confetti({ particleCount: 60, spread: 60 });
-        } catch (err) {}
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        // Fallback success feedback to user so they never see a broken form
-        setStatus('success');
-        try {
-          confetti({ particleCount: 60, spread: 60 });
-        } catch (e) {}
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      }
-    } catch (err) {
-      // Graceful fallback for network interruptions
-      setStatus('success');
-      try {
-        confetti({ particleCount: 60, spread: 60 });
-      } catch (e) {}
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }
-  };
-
   return (
     <section id="contact" className="py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,192 +21,140 @@ export default function ContactSection() {
             Get In <span className="gradient-text-primary">Touch</span>
           </h2>
           <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-2xl">
-            Interested in hiring a Data Analyst or exploring opportunities? Send a direct message below.
+            Interested in hiring a Data Analyst or exploring opportunities? Connect directly via email, LinkedIn, or GitHub below.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Contact Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
           
-          {/* Left Column: Direct Contact Info */}
+          {/* Email Card */}
           <motion.div
-            initial={{ opacity: 0, x: -25 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-5 space-y-4"
+            transition={{ duration: 0.4 }}
+            className="glass-card-hover rounded-2xl p-6 border border-white/10 flex flex-col justify-between group"
           >
-            {/* Email Card */}
-            <div className="glass-card-hover rounded-2xl p-5 border border-white/10 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#4F8CFF] shrink-0">
-                <Mail className="w-5 h-5" />
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#4F8CFF] mb-4 group-hover:border-[#4F8CFF]/50 transition-colors">
+                <Mail className="w-6 h-6" />
               </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">DIRECT EMAIL</div>
-                <a
-                  href={`mailto:${PORTFOLIO_DATA.personal.email}`}
-                  className="text-sm font-bold text-white hover:text-[#4F8CFF] transition-colors break-all flex items-center gap-1 mt-0.5"
-                >
-                  <span>{PORTFOLIO_DATA.personal.email}</span>
-                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-                </a>
-              </div>
+              <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">Direct Email</div>
+              <h3 className="text-base font-bold text-white mt-1 group-hover:text-[#4F8CFF] transition-colors break-all">
+                {PORTFOLIO_DATA.personal.email}
+              </h3>
+              <p className="text-xs text-slate-400 mt-2">
+                Send an email for inquiries or job opportunities.
+              </p>
             </div>
 
-            {/* LinkedIn Card */}
-            <div className="glass-card-hover rounded-2xl p-5 border border-white/10 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#00E5A8] shrink-0">
-                <LinkedinIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">LINKEDIN PROFILE</div>
-                <a
-                  href={PORTFOLIO_DATA.personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-bold text-white hover:text-[#00E5A8] transition-colors flex items-center gap-1 mt-0.5"
-                >
-                  <span>linkedin.com/in/krishna-mehta-analytics</span>
-                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-                </a>
-              </div>
+            <div className="mt-6 pt-4 border-t border-white/10">
+              <a
+                href={`mailto:${PORTFOLIO_DATA.personal.email}`}
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-[#4F8CFF] to-[#8B5CF6] hover:opacity-90 rounded-xl transition-all shadow-md shadow-[#4F8CFF]/20"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Send Email</span>
+              </a>
             </div>
-
-            {/* GitHub Card */}
-            <div className="glass-card-hover rounded-2xl p-5 border border-white/10 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#8B5CF6] shrink-0">
-                <GithubIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">GITHUB REPOSITORIES</div>
-                <a
-                  href={PORTFOLIO_DATA.personal.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-bold text-white hover:text-[#8B5CF6] transition-colors flex items-center gap-1 mt-0.5"
-                >
-                  <span>github.com/krishna20000</span>
-                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-                </a>
-              </div>
-            </div>
-
-            {/* Location Card */}
-            <div className="glass-card-hover rounded-2xl p-5 border border-white/10 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-amber-400 shrink-0">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400">LOCATION</div>
-                <div className="text-sm font-bold text-white mt-0.5">
-                  {PORTFOLIO_DATA.personal.location}
-                </div>
-              </div>
-            </div>
-
           </motion.div>
 
-          {/* Right Column: Interactive Form */}
+          {/* LinkedIn Card */}
           <motion.div
-            initial={{ opacity: 0, x: 25 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-7 glass-card rounded-2xl p-6 sm:p-8 border border-white/10"
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="glass-card-hover rounded-2xl p-6 border border-white/10 flex flex-col justify-between group"
           >
-            <h3 className="text-xl font-bold text-white mb-2">Send a Message</h3>
-            <p className="text-xs text-slate-400 mb-6">
-              Fill out the form below and Krishna will respond promptly.
-            </p>
-
-            {status === 'success' && (
-              <div className="mb-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex items-center gap-3 text-emerald-300 text-xs font-medium">
-                <CheckCircle2 className="w-5 h-5 text-[#00E5A8] shrink-0" />
-                <span>Thank you! Your message has been sent successfully. Krishna will get back to you shortly.</span>
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#00E5A8] mb-4 group-hover:border-[#00E5A8]/50 transition-colors">
+                <LinkedinIcon className="w-6 h-6" />
               </div>
-            )}
+              <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">LinkedIn</div>
+              <h3 className="text-base font-bold text-white mt-1 group-hover:text-[#00E5A8] transition-colors">
+                Krishna Mehta
+              </h3>
+              <p className="text-xs text-slate-400 mt-2">
+                Connect professionally on LinkedIn.
+              </p>
+            </div>
 
-            {status === 'error' && (
-              <div className="mb-6 p-4 rounded-xl bg-red-950/40 border border-red-500/30 flex items-center gap-3 text-red-300 text-xs font-medium">
-                <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
-                <span>{errorMessage || 'Something went wrong. Please check your inputs and try again.'}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                    YOUR NAME *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="e.g. Recruiter / Hiring Manager"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                    EMAIL ADDRESS *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="e.g. hiring@company.com"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                  SUBJECT
-                </label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="e.g. Data Analyst Opportunity / BI Inquiry"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                  MESSAGE *
-                </label>
-                <textarea
-                  name="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Hi Krishna, I'd like to discuss an opportunity..."
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#4F8CFF] transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={status === 'submitting'}
-                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#4F8CFF] to-[#8B5CF6] hover:opacity-90 text-white font-semibold text-xs transition-all shadow-lg shadow-[#4F8CFF]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            <div className="mt-6 pt-4 border-t border-white/10">
+              <a
+                href={PORTFOLIO_DATA.personal.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-white/10 rounded-xl transition-all"
               >
-                {status === 'submitting' ? (
-                  <span>Sending Message...</span>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Send Message to Krishna</span>
-                  </>
-                )}
-              </button>
-            </form>
+                <span>View Profile</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </motion.div>
 
+          {/* GitHub Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="glass-card-hover rounded-2xl p-6 border border-white/10 flex flex-col justify-between group"
+          >
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-[#8B5CF6] mb-4 group-hover:border-[#8B5CF6]/50 transition-colors">
+                <GithubIcon className="w-6 h-6" />
+              </div>
+              <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">GitHub</div>
+              <h3 className="text-base font-bold text-white mt-1 group-hover:text-[#8B5CF6] transition-colors">
+                krishna20000
+              </h3>
+              <p className="text-xs text-slate-400 mt-2">
+                Explore project repositories & code.
+              </p>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-white/10">
+              <a
+                href={PORTFOLIO_DATA.personal.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-white/10 rounded-xl transition-all"
+              >
+                <span>View GitHub</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Location Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="glass-card-hover rounded-2xl p-6 border border-white/10 flex flex-col justify-between group"
+          >
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-amber-400 mb-4 group-hover:border-amber-400/50 transition-colors">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">Location</div>
+              <h3 className="text-base font-bold text-white mt-1">
+                India
+              </h3>
+              <p className="text-xs text-slate-400 mt-2">
+                Open to Remote & On-Site Roles in India.
+              </p>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-white/10">
+              <div className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 text-[11px] font-mono font-semibold text-[#00E5A8] bg-[#00E5A8]/10 rounded-xl">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Available for Hire</span>
+              </div>
+            </div>
           </motion.div>
 
         </div>
