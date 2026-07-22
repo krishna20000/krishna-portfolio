@@ -2,14 +2,16 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FolderGit2, ArrowUpRight, CheckCircle2, Eye, Clock } from 'lucide-react';
+import { FolderGit2, ArrowUpRight, CheckCircle2, Eye, Clock, Maximize2 } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '@/data/portfolioData';
 import ProjectChartPreview from './ProjectChartPreview';
 import ProjectModal from './ProjectModal';
+import ImageModal from './ImageModal';
 import { GoogleDriveIcon, GithubIcon } from './SocialIcons';
 
 export default function ProjectsSection() {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
+  const [selectedZoomImage, setSelectedZoomImage] = useState<{ src: string; alt: string } | null>(null);
 
   const projects = PORTFOLIO_DATA.projects;
 
@@ -31,7 +33,7 @@ export default function ProjectsSection() {
           </p>
         </div>
 
-        {/* Projects Grid */}
+        {/* Projects Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <div
@@ -39,15 +41,36 @@ export default function ProjectsSection() {
               className="glass-card-hover rounded-2xl p-5 border border-white/10 flex flex-col justify-between group"
             >
               <div>
-                {/* SVG Chart or Real Dashboard Image Preview */}
-                <ProjectChartPreview
-                  chartType={project.chartType}
-                  title={project.title}
-                  badge={project.badge}
-                  imageUrl={project.imageUrl}
-                />
+                {/* SVG Chart or Real Dashboard Image Preview with Click-to-Zoom */}
+                <div
+                  onClick={() => {
+                    if (project.imageUrl) {
+                      setSelectedZoomImage({ src: project.imageUrl, alt: project.title });
+                    } else {
+                      setActiveModalProject(project);
+                    }
+                  }}
+                  className="cursor-pointer relative group/img"
+                  title="Click to view fullscreen zoom"
+                >
+                  <ProjectChartPreview
+                    chartType={project.chartType}
+                    title={project.title}
+                    badge={project.badge}
+                    imageUrl={project.imageUrl}
+                  />
 
-                {/* Title & Badge */}
+                  {project.imageUrl && (
+                    <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/img:opacity-100 transition-opacity duration-200 flex items-center justify-center rounded-xl backdrop-blur-xs">
+                      <div className="px-3 py-1.5 rounded-lg bg-slate-900/90 text-white text-[11px] font-mono font-bold flex items-center gap-1.5 border border-white/20 shadow-xl">
+                        <Maximize2 className="w-3.5 h-3.5 text-[#00E5A8]" />
+                        <span>Fullscreen Zoom</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Title & Category */}
                 <div className="mt-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-mono text-[#00E5A8] bg-[#00E5A8]/10 px-2.5 py-0.5 rounded">
@@ -96,12 +119,11 @@ export default function ProjectsSection() {
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4F8CFF] hover:text-[#00E5A8] transition-colors cursor-pointer"
                 >
                   <Eye className="w-3.5 h-3.5" />
-                  <span>Case Study</span>
+                  <span>Case Details</span>
                 </button>
 
-                {/* Action Buttons: Drive View and GitHub if upcoming */}
+                {/* Action Links */}
                 <div className="flex items-center gap-1.5">
-                  {/* Google Drive Link */}
                   {project.driveUrl && (
                     <a
                       href={project.driveUrl}
@@ -115,7 +137,6 @@ export default function ProjectsSection() {
                     </a>
                   )}
 
-                  {/* GitHub Link for non-live / upcoming projects */}
                   {project.isUpcoming && (
                     <a
                       href={PORTFOLIO_DATA.personal.github}
@@ -135,11 +156,21 @@ export default function ProjectsSection() {
           ))}
         </div>
 
-        {/* Modal Window */}
+        {/* Project Case Details Modal */}
         <ProjectModal
           project={activeModalProject}
           onClose={() => setActiveModalProject(null)}
         />
+
+        {/* Fullscreen Image Zoom Modal */}
+        {selectedZoomImage && (
+          <ImageModal
+            isOpen={!!selectedZoomImage}
+            onClose={() => setSelectedZoomImage(null)}
+            imageSrc={selectedZoomImage.src}
+            imageAlt={selectedZoomImage.alt}
+          />
+        )}
 
       </div>
     </section>
